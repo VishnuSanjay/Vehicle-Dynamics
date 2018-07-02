@@ -1,35 +1,35 @@
-function varargout = VHSIM(varargin)
-% VHSIM M-file for VHSIM.fig
-%      VHSIM, by itself, creates a new VHSIM or raises the existing
+function varargout = Linear_Sim(varargin)
+% Linear_Sim M-file for Linear_Sim.fig
+%      Linear_Sim, by itself, creates a new Linear_Sim or raises the existing
 %      singleton*.
 %
-%      H = VHSIM returns the handle to a new VHSIM or the handle to
+%      H = Linear_Sim returns the handle to a new Linear_Sim or the handle to
 %      the existing singleton*.
 %
-%      VHSIM('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in VHSIM.M with the given input arguments.
+%      Linear_Sim('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in Linear_Sim.M with the given input arguments.
 %
-%      VHSIM('Property','Value',...) creates a new VHSIM or raises the
+%      Linear_Sim('Property','Value',...) creates a new Linear_Sim or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
 %      applied to the GUI before VHSIM_OpeningFunction gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to VHSIM_OpeningFcn via varargin.
+%      stop.  All inputs are passed to Linear_Sim_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help VHSIM
+% Edit the above text to modify the response to help Linear_Sim
 
-% Last Modified by GUIDE v2.5 08-Dec-2017 16:32:48
+% Last Modified by GUIDE v2.5 29-Aug-2017 22:55:29
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @VHSIM_OpeningFcn, ...
-                   'gui_OutputFcn',  @VHSIM_OutputFcn, ...
+                   'gui_OpeningFcn', @Linear_Sim_OpeningFcn, ...
+                   'gui_OutputFcn',  @Linear_Sim_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -43,32 +43,27 @@ else
 end
 % End initialization code - DO NOT EDIT
 
-% --- Executes just before VHSIM is made visible.
-function VHSIM_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before Linear_Sim is made visible.
+function Linear_Sim_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to VHSIM (see VARARGIN)
+% varargin   command line arguments to Linear_Sim (see VARARGIN)
 
-% Choose default command line output for VHSIM
+% Choose default command line output for Linear_Sim
 handles.output = hObject;
 % Update handles structure
 movegui(hObject,'center')
 guidata(hObject, handles);
-wf = str2num(get(handles.WF,'string'));
-wr = str2num(get(handles.WR,'string'));
-wt = wf+wr;
-set(handles.WTOTAL,'String',num2str(round(wt)))
-set(handles.WPCF,'String',num2str(round(100*wf/(wt))))
 make_xfers(hObject);
 
-% UIWAIT makes VHSIM wait for user response (see UIRESUME)
+% UIWAIT makes Linear_Sim wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = VHSIM_OutputFcn(hObject, eventdata, handles) 
+function varargout = Linear_Sim_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -118,11 +113,6 @@ end
 
 
 function WF_Callback(hObject, eventdata, handles)
-wf = str2num(get(handles.WF,'string'));
-wr = str2num(get(handles.WR,'string'));
-wt = wf+wr;
-set(handles.WTOTAL,'String',num2str(round(wt)))
-set(handles.WPCF,'String',num2str(round(100*wf/(wt))))
 make_xfers(hObject);
 
 
@@ -136,12 +126,8 @@ end
 
 
 function WR_Callback(hObject, eventdata, handles)
-wf = str2num(get(handles.WF,'string'));
-wr = str2num(get(handles.WR,'string'));
-wt = wf+wr;
-set(handles.WTOTAL,'String',num2str(round(wt)))
-set(handles.WPCF,'String',num2str(round(100*wf/(wt))))
 make_xfers(hObject);
+
 
 function WR_CreateFcn(hObject, eventdata, handles)
 
@@ -177,11 +163,11 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-function KP_Callback(hObject, eventdata, handles)
+function IZZ_Callback(hObject, eventdata, handles)
 make_xfers(hObject);
 
 
-function KP_CreateFcn(hObject, eventdata, handles)
+function IZZ_CreateFcn(hObject, eventdata, handles)
 
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
@@ -206,13 +192,13 @@ handles=guidata(hObject);
 handles.output = hObject;
 df=str2double(get(handles.DF,'String'));
 dr=str2double(get(handles.DR,'String'));
-l =str2double(get(handles.L,'String'));
+l=str2double(get(handles.L,'String'));
 wf=str2double(get(handles.WF,'String'));
 wr=str2double(get(handles.WR,'String'));
 sr=str2double(get(handles.SR,'String'));
 speed=str2double(get(handles.SPEED,'String'));
-kp=str2double(get(handles.KP,'String'));
-t =[0:.01:1.5];
+IZZ=str2double(get(handles.IZZ,'String'));
+t=[0:.01:1.5];
 tmid=1.5;
 hw=1;
 pwr=get(handles.PWR,'Value');
@@ -226,48 +212,31 @@ conv=9.806*180/pi;
 	r2=0.;	
     r1=a*b*conv*u  / (df*wb);
     r0=a*b*conv^2 / (df*dr*wb);
-    set (handles.R1,'String', num2str(r1));
-    set (handles.R0,'String', num2str(r0));
-
 % lateral acceleration numerator factors:
-    a2=a*b^2*conv*u / (df*wb*(kp+1));
+    a2=IZZ*b*conv*u / (df*wb*(wf+wr));
     a1=a*b^2*conv^2 / (df*dr*wb);
     a0=a*b*conv^2*u / (df*dr*wb);
-    set (handles.A2,'String', num2str(a2));
-    set (handles.A1,'String', num2str(a1));
-    set (handles.A0,'String', num2str(a0));
 % sideslip numerator factors:
     b2=0.;
-    b1=a*b^2*conv / (df*wb*(kp+1));
-    b0=a*b*conv*wb*(b*conv-dr*u^2)/(df*dr*wb^2*u);
-    set (handles.B1,'String', num2str(b1));
-    set (handles.B0,'String', num2str(b0));
-
+    b1=IZZ*b*conv / (df*wb*(wf+wr));
+    b0=a*b*conv*(b*conv-dr*u^2)/(df*dr*wb*u);
 % common denominator factors:
-    d2=a*b*u / (kp+1);
-    d1=a*b*conv*(a*(df+dr*(kp+1))+b*(df*(kp+1)+dr))/(df*dr*wb*(kp+1));
+    d2=IZZ*u/(wf+wr);
+    d1=conv*(a^2*b*(wf+wr)*dr+a*df*(b^2*(wf+wr)+IZZ)+b*dr*IZZ)/(df*dr*wb*(wf+wr));
     d0=a*b*conv*(conv*wb+u^2*(df-dr)) / (df*dr*u*wb);
-    set (handles.D2,'String', num2str(d2));
-    set (handles.D1,'String', num2str(d1));
-    set (handles.D0,'String', num2str(d0));      
+      
    % inputs to transfer functions are radians of steer.
    % output of Ay is m/sec^2
    
-rsys  = tf([   r1 r0],[d2 d1 d0]); 
+rsys  = tf([   r1 r0],[d2 d1 d0]);
 rdsys = tf([r1 r0 0] ,[d2 d1 d0]);
-bsys  = tf([   b1 b0],[d2 d1 d0]); 
+bsys  = tf([   b1 b0],[d2 d1 d0]);
 bdsys = tf([b1 b0 0] ,[d2 d1 d0]);
-aysys  =tf([a2 a1 a0],[d2 d1 d0]);  
-
-assignin('base','rsys',rsys);
-assignin('base','bsys',bsys);
-assignin('base','aysys',aysys);
+aysys  =tf([a2 a1 a0],[d2 d1 d0]); 
 
 r_bw=bandwidth(rsys); 
 b_bw=bandwidth(bsys); 
 ay_bw=bandwidth(aysys);
-
-[r_Wn r_Z]= damp(rsys);
 
 set(handles.R_BW,'String',num2str(round(100*r_bw/(2*pi))/100))
 set(handles.TAU_R,'String',num2str(2/r_bw))
@@ -284,21 +253,19 @@ set(handles.ZETA,'String',num2str(z(1)))
 
 swamp=str2double(get(handles.SW_AMP,'String')); 
 
-steer=(-2./pi*atan(abs((t-tmid)./hw).^pwr)+1.).*swamp; 
+steer=(-2./pi*atan(abs((t-tmid)./hw).^pwr)+1.).*swamp;
 swavel=max(gradient(steer,.01));
 set(handles.SWAVEL,'String',num2str(round(swavel)))
-set(handles.ACKPG,'String',num2str(conv*wb/u^2))
 
-axes(handles.steer_angle_axes)
+axes(handles.axes1)
 plot(t,steer,'linewidth',2)
 xlabel('Simulated Time (sec)')
 ylabel('Steer Input Profile (deg)')
 href(0)
 vref(.5)
-grid on
 
 rd=lsim(rdsys,steer./sr,t);
-axes(handles.yaw_accel_axes)
+axes(handles.axes2)
 plot(t,rd,'linewidth',2)
 % xlabel('Simulated Time (sec)')
 ylabel('Yaw Accel. (deg/sec^2)')
@@ -306,57 +273,51 @@ href(0)
 vref(.5)
 a=gca;
 set(a,'XTicklabel',[])
-grid on
 set(handles.RD_MAX,'String',num2str(round(max(rd))))
 set(handles.RD_MIN,'String',num2str(round(min(rd))))
 
+
 r=lsim(rsys,steer./sr,t);
-axes(handles.yaw_vel_axes)
+axes(handles.axes3)
 plot(t,r,'linewidth',2)
-rpo= ((max(r)/r(end))-1)*100;
-set(handles.R_PO,'String',num2str(rpo,3))
 % xlabel('Simulated Time (sec)')
 ylabel('Yaw Vel. (deg/sec)')
 href(0)
 vref(.5)
-grid on
 a=gca;
 set(a,'XTicklabel',[])
 
 bd=lsim(bdsys,steer./sr,t);
 
-axes(handles.sideslip_vel_axes);
+axes(handles.axes4);
 plot(t,bd,'linewidth',2)
 % xlabel('Simulated Time (sec)')
 ylabel('Sideslip Vel. (deg/sec)')
 href(0)
 vref(.5)
 a=gca;
-grid on
 set(a,'XTicklabel',[])
 set(handles.BD_MAX,'String',num2str(round(100*max(bd))/100))
 set(handles.BD_MIN,'String',num2str(round(100*min(bd))/100))
 
 beta=lsim(bsys,steer./sr,t);
-axes(handles.sideslip_axes);
+axes(handles.axes5);
 plot(t,beta,'linewidth',2)
 % xlabel('Simulated Time (sec)')
 ylabel('Sideslip Angle (deg)')
 href(0)
 vref(.5)
-grid on
 a=gca;
 set(a,'XTicklabel',[])
 
 
 ay=lsim(aysys,(steer/sr/57.295),t);
-axes(handles.ay_axes);
+axes(handles.axes6);
 plot(t,ay,'linewidth',2)
 xlabel('Simulated Time (sec)')
 ylabel('Lateral Accel. (m/sec^2)')
 href(0)
 vref(.5)
-grid on
 
 function ref= href(pt)
 for n=1:length(pt)
@@ -411,35 +372,24 @@ end
 
 
 
-function WPCF_Callback(hObject, eventdata, handles)
-pcf = str2num(get(handles.WPCF,'string'));
-wt  = str2num(get(handles.WTOTAL,'String'));
-set(handles.WF,'String',num2str(round(wt*pcf/100)))
-set(handles.WR,'String',num2str(round(wt*(1-pcf/100))))
-make_xfers(hObject);
 
-function WPCF_CreateFcn(hObject, eventdata, handles)
+%%function IZZ_Callback(hObject, eventdata, handles)
+% hObject    handle to IZZ (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
+% Hints: get(hObject,'String') returns contents of IZZ as text
+%        str2double(get(hObject,'String')) returns contents of IZZ as a double
 
 
-function WTOTAL_Callback(hObject, eventdata, handles)
-wt = str2num(get(handles.WTOTAL,'string'));
-pcf=str2num(get(handles.WPCF,'String'));
-set(handles.WF,'String',num2str(round(wt*pcf/100)))
-set(handles.WR,'String',num2str(round(wt*(1-pcf/100))))
-make_xfers(hObject);
-
-function WTOTAL_CreateFcn(hObject, eventdata, handles)
+% --- Executes during object creation, after setting all properties.
+%%function IZZ_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to IZZ (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
 
 % Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
-
