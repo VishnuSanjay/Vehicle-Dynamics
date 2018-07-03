@@ -32,11 +32,13 @@ denom = [D1 D2 D3];
 N1 = a * m * u * CF;
 N2 = (a+b) * CF * CR;
 yawn = [N1 N2];
+yawan = [N1 N2 0];
 
 %%% Sideslip angle numerator
 N3 = IZZ * CF;
 N4 = (CF * CR * (b^2 + a * b) / u) - a * m * u * CF;
 betan = [N3 N4];
+dbetan = [N3 N4 0];
 
 %%% Lateral acceleration numerator
 N5 = u * IZZ * CF;
@@ -49,6 +51,8 @@ yawvtxy = tf(yawn, denom); %%yaw velocity to steer
 betatxy = tf(betan, denom); %% sideslip by steer
 aytxy = tf(ayn, denom); %% lateral acceleration by steer
 sstxy = tf(betan, ayn); %% sideslip by lateral acceleration
+yawatxy = tf(yawan, denom); %%yaw acceleration to steer
+dbetaxy = tf(dbetan, denom); %%sideslip velocity by steer
 
 %%% Steer function 
 t=[0:.1:1.5];
@@ -64,6 +68,7 @@ steerrad = steer / 57.3;
 yawvresp = lsim(yawvtxy,steerrad / SR ,t); %% yaw response wrt wheel angle
 betaresp = lsim(betatxy, steerrad / SR, t); %%beta response wrt wheel angle
 latresp = lsim(aytxy, steerrad / SR ,t);
+yawaresp = lsim(yawatxy, steerrad / SR , t); %%yaw acceleration response wrt wheel angle
 sideresp = lsim(sstxy, steerrad / SR, t);
 
 [mag,phase,w] = bode(yawvtxy);
@@ -75,27 +80,37 @@ w1             = squeeze(w1);
 [mag2,phase2,w2] = bode(aytxy);
 mag2           = squeeze(mag2);
 w2             = squeeze(w2);
+[mag3,phase3,w3] = bode(yawatxy);
+mag3           = squeeze(mag3);
+w3            = squeeze(w3);
 
 figure
-subplot(3,1,1)
+subplot(4,1,1)
 plot(w/2/pi,mag*100/SR,'b-');
 xlim([0 4])
 grid on
-ylabel('Sideslip Gain (deg /100 deg SWA)')
+ylabel('Yaw velocity Gain (deg / sec / 100 deg SWA)')
 legend('Theory')
 
-subplot(3,1,2)
+subplot(4,1,2)
 plot(w1/2/pi,mag1 * 57.3 * 9.807,'b-');
 xlim([0 4])
 grid on
 ylabel('Sideslip Gain')
 legend('Theory')
 
-subplot(3,1,3)
+subplot(4,1,3)
 plot(w2/2/pi,mag2* 100/ 57.3 /SR /9.807,'b-');
 xlim([0 4])
 grid on
 ylabel('Lateral acceleration Gain (gs per 100 deg SWA)')
+legend('Theory')
+
+subplot(4,1,4)
+plot(w/2/pi,mag3*100/SR,'b-');
+xlim([0 4])
+grid on
+ylabel('Yaw acceleratoin (deg / sec^2 / 100 deg SWA)')
 legend('Theory')
 
 %%% Time plots
