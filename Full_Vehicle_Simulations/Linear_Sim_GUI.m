@@ -54,9 +54,10 @@ function Linear_Sim_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 
 % Choose default command line output for Linear_Sim_GUI
 handles.output = hObject;
-
+m = str2num(get(handles.m,'string'));
 % Update handles structure
 guidata(hObject, handles);
+make_xfers(hObject);
 
 
 % UIWAIT makes Linear_Sim_GUI wait for user response (see UIRESUME)
@@ -87,8 +88,8 @@ kdash=str2double(get(handles.kdash,'String'));
 fintim=str2double(get(handles.fintim,'String'));
 tmid=str2double(get(handles.tmid,'String'));
 hw=str2double(get(handles.hw,'String'));
-pwr=str2double(get(handles.pwr,'String'))
-swamp=str2double(get(handles.swamp,'String'))
+pwr=str2double(get(handles.pwr,'String'));
+swamp=str2double(get(handles.swamp,'String'));
 mr = m - mf/100 * m;
 a=mr/m * wb; 
 b=mf/m * wb;
