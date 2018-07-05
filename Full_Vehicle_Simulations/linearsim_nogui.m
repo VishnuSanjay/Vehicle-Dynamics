@@ -145,6 +145,24 @@ ss = betass / ayss; %% steady state sideslip gain rad/ms^-2
 ayssg = ayss / 9.807 / 57.3;  %%steady state lateral acceleration gain g's/deg
 steeringsens = ayssg * 100 / SR; %%steering sensitivity. g's per 100 deg
 
+yaw_bw=bandwidth(yawvtxy); 
+beta_bw=bandwidth(betatxy); 
+ay_bw=bandwidth(sstxy);
+
+R_BW = yaw_bw/(2*pi); %in Hertz
+TAU_R = 2/yaw_bw ;  %in seconds
+
+B_BW = beta_bw/(2*pi); %in Hertz
+TAU_B = 2/beta_bw ;  %in seconds
+
+AY_BW = ay_bw/(2*pi); %in Hertz
+TAU_AY = 2/ay_bw ;  %in seconds
+
+[wn,z]=damp(rsys);
+WN = wn(1) / (2*pi); %first natural frequency in Hertz
+ZETA = z(1); %damping ratio
+
+yawv_p2ss= ((max(r)/r(end))-1)*100; %yaw velocity peak to steady state ratio
 %%%ayssg is steering sensitivity in terms of g's per 1 deg wheel angle
 %%%ayss is steering sensitivity in terms of ms^-2 per radian wheel angle
 
