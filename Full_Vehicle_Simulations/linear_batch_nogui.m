@@ -24,7 +24,7 @@ t=[0:.1:1.5];
 tmid = 1.5; %% point about which the step function is symmetric
 hw=1; %% half width of steer function duration
 pwr=147; %steer velocity in deg/sec
-swamp= 100; %%degrees of steering wheel angle
+swamp= 20; %%degrees of steering wheel angle
 steerdeg=(-2./pi*atan(abs((t-tmid)./hw).^pwr)+1.).*swamp; %% in degrees
 steer = steerdeg / 57.3;
 

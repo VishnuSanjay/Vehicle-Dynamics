@@ -3,20 +3,20 @@ close all
 clc
 
 %% Inputs for the simulation and unit conversion:
-m = 220;%% mass of the vehicle, in kgs
-kdash = 0; %%k' = k/(a*b) - 1
-wb = 1.745; % wheelbase in metres
-a = wb * 120 / m;%%distance from CG to front axle in m
-b = wb * 100 / m;%%distance from CG to rear axle in m
+m = 1600;%% mass of the vehicle, in kgs
+kdash = 0.072; %%k' = k/(a*b) - 1
+wb = 2.747; % wheelbase in metres
+a = wb * 600 / m;%%distance from CG to front axle in m
+b = wb * 1000 / m;%%distance from CG to rear axle in m
 mf = m * b / (a+b); %%mass on front axle, kg
 mr = m * a / (a+b);
-DF = 3; %%front corenering compliance in deg/g
-DR = 2;
+DF = 6; %%front corenering compliance in deg/g
+DR = 3;
 IZZ = (kdash+1) * m * a * b;%% yaw moment of inertia of the vehicle, in kg m^2
 CF =  57.3 * mf * 9.81 / DF;%% Front tire cornering stiffness, input in N/deg, gets converted to N/rad
 CR =  57.3 * mr * 9.81 / DR;%% Same as above, for rear tires
 u = 100 / 3.6 ;%% vehicle forward velocity in m/s
-SR = 5;%%degrees of steer wheel angle per degree of wheel angle. Assumed constant
+SR = 20;%%degrees of steer wheel angle per degree of wheel angle. Assumed constant
 
 %%% Note: CF and CR can also be considered as effective front and rear
 %%% cornering compliances, according to the paper by Bundorf and Leffert
@@ -55,11 +55,11 @@ yawatxy = tf(yawan, denom); %%yaw acceleration to steer
 dbetatxy = tf(dbetan, denom); %%sideslip velocity by steer
 
 %%% Steer function 
-t=[0:.1:1.5];
+t=[0:.01:1.5];
 tmid = 1.5; %% point about which the step function is symmetric
 hw=1; %% half width of steer function duration
-pwr=147; %steer velocity in deg/sec
-swamp= 100; %%degrees of steering wheel angle
+pwr=31.8; %steer velocity in deg/sec
+swamp= 20; %%degrees of steering wheel angle
 steerdeg=(-2./pi*atan(abs((t-tmid)./hw).^pwr)+1.).*swamp; %% in degrees
 steer = steerdeg / 57.3;
 
@@ -158,7 +158,7 @@ TAU_B = 2/beta_bw ;  %in seconds
 AY_BW = ay_bw/(2*pi); %in Hertz
 TAU_AY = 2/ay_bw ;  %in seconds
 
-[wn,z]=damp(rsys);
+[wn,z]=damp(yawvtxy);
 WN = wn(1) / (2*pi); %first natural frequency in Hertz
 ZETA = z(1); %damping ratio
 
