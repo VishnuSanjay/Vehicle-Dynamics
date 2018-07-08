@@ -3,18 +3,18 @@ close all
 clc
 
 %% Inputs for the simulation and unit conversion:
-m = 220;%% mass of the vehicle, in kgs
+m = 1600;%% mass of the vehicle, in kgs
 kdash = 0; %%k' = k/(a*b) - 1
-wb = 1.745; % wheelbase in metres
-a = wb * 120 / m;%%distance from CG to front axle in m
-b = wb * 100 / m;%%distance from CG to rear axle in m
+wb = 2.747; % wheelbase in metres
+a = wb * 600 / m;%%distance from CG to front axle in m
+b = wb * 1000 / m;%%distance from CG to rear axle in m
 mf = m * b / (a+b); %%mass on front axle, kg
 mr = m * a / (a+b);
 IZZ = (kdash+1) * m * a * b;%% yaw moment of inertia of the vehicle, in kg m^2
 u = 100 / 3.6 ;%% vehicle forward velocity in m/s
-SR = 5;%%degrees of steer wheel angle per degree of wheel angle. Assumed constant
+SR = 16;%%degrees of steer wheel angle per degree of wheel angle. Assumed constant
 
-DR = [1:1:6];
+DR = [2:1:4];
 l1 = length(DR);
 K = [1:1:6]; %%understeer DF-DR in deg/g
 l2 = length(K);
@@ -87,7 +87,7 @@ for j = 1:1:l1
         ZETA = z(1); %damping ratio
         
         r = lsim(yawvtxy,steer / SR ,t); %% yaw response wrt wheel angle
-        yawv_p2ss(i,j)= ((max(r)/r(end))-1)*100; %yaw velocity peak to steady state ratio
+        yawv_p2ss(i,j)= (max(r)/r(end)); %yaw velocity peak to steady state ratio
     end
 end
 
@@ -95,13 +95,13 @@ end
 %% Carpet plot time
 figure
 hold on
-for i = 1:1:l1
+for i = 1:1:l2
     plot(TAU_AY(i,:), yawv_p2ss(i,:),'b')
     curr_k = ['K = ',num2str(K(i))];
     text(TAU_AY(i,end),yawv_p2ss(i,end),curr_k,'HorizontalAlignment','left');
 end
-for i = 1:1:l2
-    plot(TAU_AY(:,i), yawv_p2ss(:,i),'g')
+for i = 1:1:l1
+    plot(TAU_AY(:,i), yawv_p2ss(:,i),'go')
     curr_dr = ['DR = ',num2str(DR(i))];
     text(TAU_AY(1,i),yawv_p2ss(1,i),curr_dr,'HorizontalAlignment','left','VerticalAlignment','top');
 end
