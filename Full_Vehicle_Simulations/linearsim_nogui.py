@@ -78,16 +78,16 @@ ay = ay[0]
 rd = rd[0]
 betad = betad[0]
 
-mag,phase,w = bode(yawvtxy)
+mag,phase,w = bode(yawvtxy, Plot=False)
 mag           = np.squeeze(mag)
 w             = np.squeeze(w)
-mag1,phase1,w1 = bode(betagtxy)
+mag1,phase1,w1 = bode(betagtxy, Plot=False)
 mag1           = np.squeeze(mag1)
 w1             = np.squeeze(w1)
-mag2,phase2,w2 = bode(sstxy)
+mag2,phase2,w2 = bode(sstxy, Plot=False)
 mag2           = np.squeeze(mag2)
 w2             = np.squeeze(w2)
-mag3,phase3,w3 = bode(yawatxy)
+mag3,phase3,w3 = bode(yawatxy, Plot=False)
 mag3           = np.squeeze(mag3)
 w3            = np.squeeze(w3)
 
@@ -114,7 +114,7 @@ TAU_B = 2/beta_bw ##in seconds
 
 AY_BW = ay_bw/(2*np.pi) ##in Hertz
 TAU_AY = 2/ay_bw ##in seconds
-
+print(TAU_AY)
 wn=damp(yawvtxy)[0]
 z=damp(yawvtxy)[1]
 WN = wn[0] / (2*np.pi) ##first natural frequency in Hertz

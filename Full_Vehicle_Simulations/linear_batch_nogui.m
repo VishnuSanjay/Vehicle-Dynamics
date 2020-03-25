@@ -69,9 +69,11 @@ for j = 1:1:l1
         yawatxy = tf(yawan, denom); %%yaw acceleration to steer
         dbetatxy = tf(dbetan, denom); %%sideslip velocity by steer
         
+        
         yaw_bw=bandwidth(yawvtxy); 
         beta_bw=bandwidth(betatxy);
         ay_bw=bandwidth(sstxy);
+        ay_bw
         
         R_BW = yaw_bw/(2*pi); %in Hertz
         TAU_R = 2/yaw_bw ;  %in seconds

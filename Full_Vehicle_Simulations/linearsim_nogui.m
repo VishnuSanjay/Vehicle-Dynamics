@@ -157,7 +157,7 @@ B_BW = beta_bw/(2*pi); %in Hertz
 TAU_B = 2/beta_bw ;  %in seconds
 
 AY_BW = ay_bw/(2*pi); %in Hertz
-TAU_AY = 2/ay_bw ;  %in seconds
+TAU_AY = 2/ay_bw   %in seconds
 
 [wn,z]=damp(yawvtxy);
 WN = wn(1) / (2*pi); %first natural frequency in Hertz
