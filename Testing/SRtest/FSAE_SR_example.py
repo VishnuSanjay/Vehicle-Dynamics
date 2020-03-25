@@ -29,24 +29,24 @@ sr_l = (swa_ld/lwad)
 sr_r = (swa_rd/rwad)
 
 
-swa_l(find(isnan(sr_l)))=[];
-sr_l(find(isnan(sr_l)))=[];
+swa_l = np.delete(swa_l,np.argwhere(np.isnan(sr_l)))
+sr_l = np.delete(sr_l,np.argwhere(np.isnan(sr_l)))
        
-swa_r(find(isnan(sr_r)))=[];
-sr_r(find(isnan(sr_r)))=[];
+swa_r = np.delete(np.argwhere(np.isnan(sr_r)))
+sr_r = np.delete(np.argwhere(np.isnan(sr_r)))
 
-%--------------------- right wheel --------------------------------------
-sr_r_fit  = sr_r (find(abs(swa_r) < 115));
-swa_r_fit = swa_r(find(abs(swa_r) < 115));
+#--------------------- right wheel --------------------------------------
+sr_r_fit  = sr_r[np.argwhere(np.abs(swa_r) < 115)]
+swa_r_fit = swa_r[np.argwhere(np.abs(swa_r) < 115)]
 
 options = optimset('MaxFunEvals',1000000,'MaxIter',1000000,'Display','final');
 
 SR_R = [mean(sr_r_fit) 0 0 max(sr_r_fit) 0 0 270 0]  
 [SR_R,x1,y1] = lsqcurvefit('sr_func',SR_R,swa_r_fit,sr_r_fit,[],[],options)
 
-%-------------------- left wheel --------------------------------------
-sr_l_fit  = sr_l (find(abs(swa_l) < 115));
-swa_l_fit = swa_l(find(abs(swa_l) < 115));
+#-------------------- left wheel --------------------------------------
+sr_l_fit  = sr_l[np.argwhere(np.abs(swa_l) < 115)]
+swa_l_fit = swa_l[np.argwhere(np.abs(swa_l) < 115)]
 
 
 SR_L = SR_R;    % go with a winner

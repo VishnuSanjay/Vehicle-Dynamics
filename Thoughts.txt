@@ -1,0 +1,11 @@
+1. Bill's primitive model doesn't include diff, aero effects. Kinematics can pla
+y more of an effect based on specifics.
+2. Why does steer and camber get added the same way in the compliance budget?
+3. Why measure DR at tangent speed?
+4. Why driver's front slip angle rate sensitivity(maxlatsim), and not derivative(nonlin)?
+5. Out of phase?
+6. Did we ever test in-phase at 4ze?
+7. Pg.31 how these plots?
+8. Ay response time long for high front compliance vehicle?
+9. Why sideslip response to front cornering compliance?
+10. 
