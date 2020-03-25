@@ -78,7 +78,7 @@ ay = ay[0]
 rd = rd[0]
 betad = betad[0]
 
-mag,phase,w = bode(yawvtxy, Plot=False)
+mag,phase,w = bode(yawvtxy)
 mag           = np.squeeze(mag)
 w             = np.squeeze(w)
 mag1,phase1,w1 = bode(betagtxy, Plot=False)
@@ -90,7 +90,7 @@ w2             = np.squeeze(w2)
 mag3,phase3,w3 = bode(yawatxy, Plot=False)
 mag3           = np.squeeze(mag3)
 w3            = np.squeeze(w3)
-
+print(w)
 
 ## Outputs
 ### steady state gains

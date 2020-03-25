@@ -82,7 +82,6 @@ for j in range(l1):
         beta_bw=bandwidth_tf(betatxy)
         ay_bw=bandwidth_tf(sstxy)
         
-        print(ay_bw)
 
         R_BW = yaw_bw/(2*np.pi) ## in Hertz
         TAU_R = 2/yaw_bw ## in seconds
@@ -108,13 +107,13 @@ print(yawv_p2ss, TAU_AY)
 fig, ax = plt.subplots()
 for i in range(l2):
     ax.plot(TAU_AY[i,:], yawv_p2ss[i,:],'b')
-    #curr_k = ['K = ',num2str(K(i))]
-    #text(TAU_AY(i,end),yawv_p2ss(i,end),curr_k,'HorizontalAlignment','left')
+    curr_k = "K = {}".format(K[i])
+    ax.text(TAU_AY[i,-1]*1.001,yawv_p2ss[i,-1]*1.001,curr_k)
 
 for i in range(l1):
     ax.plot(TAU_AY[:,i], yawv_p2ss[:,i],'go')
-    #curr_dr = ['DR = ',num2str(DR(i))]
-    #0text(TAU_AY(1,i),yawv_p2ss(1,i),curr_dr,'HorizontalAlignment','left','VerticalAlignment','top')
+    curr_dr = "DR = {}".format(DR[i])
+    ax.text(TAU_AY[0,i],yawv_p2ss[0,i]*0.985,curr_dr)
 
 ax.set_xlabel('Lateral acceleration response time(seconds)')
 ax.set_ylabel('Yaw velocity peak to steady state ratio (%)')
