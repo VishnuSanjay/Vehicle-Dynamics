@@ -15,21 +15,23 @@ def dfdr_syn(Y):
 
     N1 = a * m * u * CF
     N2 = (a+b) * CF * CR
-    yawn = np.array([N1 N2])
+    yawn = np.array([np.float(N1) np.float(N2)])
 
     N5 = u * IZZ * CF;
     N6 = CF * CR * (b**2 + a * b);
     N7 = (a+b) * CF * CR * u;
 
-    denom = np.array([DE1 DE2 DE3])
-    ayn = np.array([N5 N6 N7])
+    denom = np.array([np.float(DE1), np.float(DE2), np.float(DE3)])
+    ayn = np.array([np.float(N5), np.float(N6), np.float(N7)])
     yawvtxy = tf(yawn, denom) ##yaw velocity to steer 
     sstxy = tf(ayn, denom) ## lateral acceleration by steer
-    ay_bw=bandwidth(sstxy)
+    ay_bw = bandwidth_tf(sstxy)
     TAU_AY_val = 2/ay_bw   ##in seconds
 
-    r,t = step(yawvtxy);
+    r,t = step(yawvtxy)
+    r = r[0]	
     yawv_p2ss_val= (np.max[r]/r[end])
-    X = np.array([TAU_AY_val yawv_p2ss_val])
+    X = np.array([TAU_AY_val, yawv_p2ss_val])
     y = Y
-    return error = X - [TAU_AY yawv_p2ss];i
+    error = X - [TAU_AY yawv_p2ss]
+    return error 	

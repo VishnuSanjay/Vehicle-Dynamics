@@ -24,9 +24,9 @@ def eval_tau(CF_list, params)
         denom = np.array([DE1 DE2 DE3])
         ayn = np.array([N5 N6 N7])
         sstxy = tf(ayn, denom) ## lateral acceleration by steer
-        ay_bw=bandwidth(sstxy);
+        ay_bw = bandwidth_tf(sstxy);
         TAU_AY_list[i] = 2/ay_bw ## in seconds
 
-
+    return TAU_AY_list	
 
 
