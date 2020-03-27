@@ -1,4 +1,6 @@
-def sr_func(SR,swa):
+import numpy as np
+
+def sr_func(swa,A0,A1,A2,B,C,D,F,G):
     #VHTRIMS Overall Steer Ratio fitting function
     #[RATIO] = sr_func(A0,A1,A2,B,C,D,F,G,swa)
 
@@ -12,14 +14,14 @@ def sr_func(SR,swa):
     #F = 550.82 # VARIABLE RATIO RANGE (Degrees SWA)
     #G = 13.75 # VARIABLE RATIO ZERO OFFSET (Degrees SWA)
 
-    A0 = SR[0]
-    A1 = SR[1]
-    A2 = SR[2]
-    B = SR[3]
-    C = SR[4]
-    D = SR[5]
-    F = SR[6]
-    G = SR[7]
+    #A0 = SR[0]
+    #A1 = SR[1]
+    #A2 = SR[2]
+    #B = SR[3]
+    #C = SR[4]
+    #D = SR[5]
+    #F = SR[6]
+    #G = SR[7]
 
     #F[F==0] = np.finfo('d').max #realsteve could do the job, too.
 
